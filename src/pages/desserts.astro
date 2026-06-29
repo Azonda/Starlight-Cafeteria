@@ -1,0 +1,47 @@
+---
+import Layout from "../components/Layout.astro";
+import { getCollection } from "astro:content";
+import MenuCard from "../components/MenuCard";
+
+const allProjects = await getCollection("projects");
+const projects = allProjects.filter((p) => p.data.category === "desserts");
+
+const categoryTitle = "点心";
+const categorySubtitle = "DESSERTS";
+---
+
+<Layout title={`${categoryTitle} | 星光咖啡厅`}>
+  <div class="min-h-screen bg-brand">
+    {/* Header */}
+    <div class="px-8 py-12 md:px-16 md:py-16 lg:px-20 lg:py-20">
+      <h1
+        class="text-white font-bold uppercase leading-none"
+        style="font-family: 'Oswald', sans-serif; font-size: clamp(2.5rem, 6vw, 4rem); letter-spacing: -1px; text-shadow: 4px 4px 0 #000;"
+      >
+        {categorySubtitle}
+      </h1>
+      <p
+        class="mt-3 text-white/70 font-bold uppercase tracking-widest"
+        style="font-family: 'ZCOOL XiaoWei', cursive; font-size: clamp(1rem, 2vw, 1.25rem);"
+      >
+        {categoryTitle}
+      </p>
+    </div>
+
+    {/* Card Grid */}
+    <div class="px-8 pb-20 md:px-16 lg:px-20">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project, index) => (
+          <MenuCard
+            client:visible
+            name={project.data.name}
+            image={project.data.image.src}
+            description={project.data.description}
+            link={project.data.link}
+            index={index}
+          />
+        ))}
+      </div>
+    </div>
+  </div>
+</Layout>

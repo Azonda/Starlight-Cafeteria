@@ -1,0 +1,173 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title?: string;
+}
+
+const { title = "星光咖啡厅 | Starlight Cafeteria" } = Astro.props;
+
+const navItems = [
+  { label: "首页", href: "/", icon: "🏠" },
+  { label: "特调咖啡", href: "/special-coffee", icon: "☕" },
+  { label: "气泡水", href: "/sparkling-water", icon: "🫧" },
+  { label: "冰茶", href: "/iced-tea", icon: "🧊" },
+  { label: "点心", href: "/desserts", icon: "🍰" },
+  { label: "关于店长", href: "/about", icon: "👤" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=ZCOOL+XiaoWei&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Global Styles (loaded via import in frontmatter) -->
+  </head>
+  <body class="min-h-screen bg-brand text-body">
+    <div class="flex min-h-screen">
+      <!-- Mobile Header -->
+      <header class="lg:hidden fixed top-0 left-0 right-0 z-50 bg-brand-secondary border-b-4 border-black">
+        <div class="flex items-center justify-between px-4 py-3">
+          <button
+            id="mobile-menu-toggle"
+            class="p-2 rounded-[20px] border-4 border-black bg-brand text-white"
+            aria-label="打开菜单"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+          <span class="font-bold text-brand text-xl uppercase" style="font-family: 'ZCOOL XiaoWei', cursive;">
+            星光咖啡厅
+          </span>
+          <div class="w-10"></div>
+        </div>
+      </header>
+
+      <!-- Mobile Overlay -->
+      <div
+        id="mobile-overlay"
+        class="fixed inset-0 bg-black/50 z-40 hidden lg:hidden"
+      ></div>
+
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="fixed lg:static inset-y-0 left-0 z-50 w-[288px] bg-brand-secondary border-r-4 border-black transform -translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col"
+      >
+        <!-- Logo Area -->
+        <div class="p-6 pb-4">
+          <div class="flex flex-col items-center gap-3">
+            <img
+              src="/logo.png"
+              alt="星光咖啡厅"
+              class="w-24 h-24 rounded-[20px] border-4 border-black shadow-[4px_4px_0_0_#000] bg-brand"
+            />
+            <h1
+              class="text-2xl font-bold text-brand uppercase tracking-tight"
+              style="font-family: 'ZCOOL XiaoWei', cursive;"
+            >
+              星光咖啡厅
+            </h1>
+            <p class="text-xs text-brand uppercase tracking-widest font-bold">
+              Starlight Cafeteria
+            </p>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 py-2 overflow-y-auto">
+          <ul class="flex flex-col gap-3">
+            {navItems.map((item) => {
+              const isActive = currentPath === item.href || (item.href !== "/" && currentPath.startsWith(item.href));
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    class:list={[
+                      "flex items-center gap-3 px-4 py-3 rounded-[20px] font-bold uppercase text-base transition-colors duration-200",
+                      isActive
+                        ? "bg-brand text-white border-4 border-black shadow-[2px_2px_0_0_#000]"
+                        : "text-brand hover:bg-brand-quaternary hover:text-black"
+                    ]}
+                  >
+                    <span class="text-xl">{item.icon}</span>
+                    <span>{item.label}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <!-- Bottom Decoration -->
+        <div class="p-4 mt-auto">
+          <div class="bg-brand text-white p-4 rounded-[20px] border-4 border-black shadow-[6px_6px_0_0_#000]">
+            <p
+              class="text-sm text-center font-medium opacity-90"
+              style="font-family: 'Times New Roman', Georgia, serif; font-style: italic; letter-spacing: 0.04em;"
+            >
+              per aspera ad astra
+            </p>
+            <p class="text-[10px] uppercase tracking-widest text-center mt-2 font-bold opacity-70">
+              Est. 2026
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 min-h-screen lg:ml-0 pt-16 lg:pt-0">
+        <slot />
+      </main>
+    </div>
+
+    <script>
+      const toggle = document.getElementById('mobile-menu-toggle');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('mobile-overlay');
+
+      function toggleMenu() {
+        const isOpen = !sidebar.classList.contains('-translate-x-full');
+        if (isOpen) {
+          sidebar.classList.add('-translate-x-full');
+          overlay.classList.add('hidden');
+        } else {
+          sidebar.classList.remove('-translate-x-full');
+          overlay.classList.remove('hidden');
+        }
+      }
+
+      toggle?.addEventListener('click', toggleMenu);
+      overlay?.addEventListener('click', toggleMenu);
+
+      // Close menu when clicking a nav link on mobile
+      sidebar?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth < 1024) {
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

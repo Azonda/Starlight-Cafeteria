@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Colors */
+  --color-brand: #00592B;
+  --color-brand-soft: #B3D6BF;
+  --color-brand-strong: #003F1E;
+  --color-brand-secondary: #FFFFFF;
+  --color-brand-tertiary: #0023D1;
+  --color-brand-quaternary: #E374C7;
+
+  /* Text Colors */
+  --color-heading: #FFFFFF;
+  --color-body: #F2EDE2;
+  --color-body-subtle: #D6CCB0;
+
+  /* Status */
+  --color-success: #00592B;
+  --color-danger: #C42424;
+  --color-warning: #E0A100;
+
+  /* Neutral */
+  --color-neutral-primary: #00592B;
+  --color-neutral-secondary: #F2EDE2;
+  --color-neutral-tertiary: #E8E0CC;
+  --color-gray: #B8AC8A;
+  --color-disabled: #E8E0CC;
+
+  /* Borders */
+  --color-border-dark: #000000;
+  --color-border-muted: #00401F;
+  --color-border-light: #00592B;
+
+  /* Font */
+  --font-heading: 'Oswald', sans-serif;
+  --font-chinese: 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
+
+  /* Shadows */
+  --shadow-2xs: 2px 2px 0 0 #000000;
+  --shadow-xs: 4px 4px 0 0 #000000;
+  --shadow-sm: 6px 6px 0 0 #000000;
+  --shadow-md: 8px 8px 0 0 #000000;
+  --shadow-lg: 10px 10px 0 0 #000000;
+  --shadow-xl: 14px 14px 0 0 #000000;
+  --shadow-2xl: 20px 20px 0 0 #000000;
+
+  /* Radius */
+  --radius-base: 20px;
+  --radius-sm: 8px;
+  --radius-full: 9999px;
+}
